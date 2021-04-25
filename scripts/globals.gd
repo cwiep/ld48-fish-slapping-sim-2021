@@ -1,5 +1,6 @@
 extends Node
 
+var mouse_controls = false
 var points = 0
 var difficulty = 1
 

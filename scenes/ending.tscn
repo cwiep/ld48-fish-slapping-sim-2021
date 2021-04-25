@@ -26,10 +26,11 @@ position = Vector2( 488, 336 )
 
 [node name="points" type="Label" parent="."]
 visible = false
-margin_left = 416.0
+margin_left = 288.0
 margin_top = 208.0
-margin_right = 576.0
+margin_right = 704.0
 margin_bottom = 222.0
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 text = "Points"
 align = 1
 __meta__ = {

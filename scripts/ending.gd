@@ -21,6 +21,6 @@ func _process(delta):
 		$ground/chest.position.y -= delta * 100
 		if $ground/chest.position.y + $ground/chest.get_rect().size.y <= 0:
 			state = STAY
-			$points.text = str(Globals.points) + " Points"
+			$points.text = str(Globals.points) + " Points\nand Walter Wormington is still alive!"
 			$points.show()
 			print(state)
