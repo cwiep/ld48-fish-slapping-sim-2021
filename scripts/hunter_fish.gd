@@ -1,17 +1,12 @@
 extends Area2D
 
-const NUM_FISHES = 4
-
 signal clicked(node)
 signal got_player(node)
 
-var _direction = Vector2(0, 0)
-
 var slapped = false
-var speed = 200
-var health = 1
-var type = 0
-var player_ref
+var direction = Vector2(0, 0)
+var speed = 150
+var health = 2
 
 # public
 
@@ -24,21 +19,16 @@ func slap():
 # private
 
 func _ready():
-	_direction = (player_ref.global_position - global_position).normalized()
-	if _direction.x > 0:
+	if direction.x < 0:
 		$Sprite.flip_h = true
-	$Sprite.region_rect.position.x = 64 * type
-	$Sprite.self_modulate = Color(randf(), randf(), randf())
-	
+	$Sprite.self_modulate = Color(randf(), 0.5, 0.5)
 
 func _physics_process(delta):
 	if slapped:
 		position.y -= 300 * delta
 		rotate(PI/10)
 	else:
-		if type == 3: # hunter
-			_direction = (player_ref.global_position - global_position).normalized()
-		position += _direction * speed * delta
+		position += direction * speed * delta
 
 func _on_fish_input_event(_viewport, event, _shape_idx):
 	if event.is_action_pressed("left_click"):

@@ -4,12 +4,12 @@ const SCREEN = Rect2(0, 0, 1024, 600)
 
 onready var fish = preload("res://scenes/fish.tscn")
 
-var difficulty = 2
 var chest_animate = false
 var wait_for_finish = false
 
 func _ready():
 	randomize()
+	Globals.reset()
 	print("\nstarting game")
 
 func _process(delta):
@@ -30,12 +30,6 @@ func _process(delta):
 			wait_for_finish = true
 	if wait_for_finish and $fishes.get_child_count() == 0:
 		get_tree().change_scene("res://scenes/ending.tscn")
-	
-
-func _get_random_spawn() -> Vector2:
-	var x = [1, SCREEN.size.x-64][randi() % 2]
-	var y = 1 + randi() % (1024 - 64)
-	return Vector2(x, y)
 
 func _on_fish_clicked(node):
 	if node.slapped:
@@ -54,20 +48,31 @@ func _on_player_hit_by_fish(some_fish):
 	print("slaps: " + str(Globals.points))
 	get_tree().change_scene("res://scenes/game_over.tscn")
 
+func _spawn_fishes(n):
+	for _i in range(Globals.difficulty):
+		var f = FishGenerator.generate()
+		print("spawing fish " + str(f) + " at " + str(f.global_position))
+		f.connect("clicked", self, "_on_fish_clicked")
+		f.connect("got_player", self, "_on_player_hit_by_fish")
+		f.player_ref = $player
+		$fishes.add_child(f)
+
 ### TIMERS
 
 func _on_spawn_timer_timeout():
-	for _i in range(difficulty):
-		var f = fish.instance()
-		f.position = _get_random_spawn()
-		print("spawing fish " + str(f) + " at " + str(f.position))
-		f.connect("clicked", self, "_on_fish_clicked")
-		f.connect("got_player", self, "_on_player_hit_by_fish")
-		f.direction = ($player.global_position - f.position).normalized()
-		$fishes.add_child(f)
-	difficulty += 1
+	_spawn_fishes(Globals.difficulty)
 
 func _on_finale_timer_timeout():
 	print("finale triggered")
 	chest_animate = true
-	
+
+func _on_difficulty_timer_timeout():
+	Globals.difficulty += 1
+	print("difficulty " + str(Globals.difficulty))
+	for _i in range(3):
+		var f = FishGenerator.generate_hunter()
+		print("spawing fish " + str(f) + " at " + str(f.global_position))
+		f.connect("clicked", self, "_on_fish_clicked")
+		f.connect("got_player", self, "_on_player_hit_by_fish")
+		f.player_ref = $player
+		$fishes.add_child(f)
