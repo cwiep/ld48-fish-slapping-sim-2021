@@ -31,13 +31,16 @@ script = ExtResource( 3 )
 [node name="tip" type="Position2D" parent="."]
 position = Vector2( -8, 280 )
 
-[node name="player" type="KinematicBody2D" parent="."]
+[node name="player" type="KinematicBody2D" parent="." groups=[
+"player",
+]]
 position = Vector2( -7.41626, 280.758 )
 
 [node name="worm" type="AnimatedSprite" parent="player"]
 position = Vector2( -0.719334, -1.54916 )
 frames = SubResource( 4 )
 animation = "idle"
+frame = 1
 playing = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="player"]

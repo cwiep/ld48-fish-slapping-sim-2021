@@ -16,4 +16,5 @@ shape = SubResource( 1 )
 texture = ExtResource( 2 )
 region_enabled = true
 region_rect = Rect2( 0, 0, 64, 64 )
+[connection signal="body_entered" from="." to="." method="_on_fish_body_entered"]
 [connection signal="input_event" from="." to="." method="_on_fish_input_event"]

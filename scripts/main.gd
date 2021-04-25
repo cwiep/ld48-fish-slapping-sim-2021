@@ -14,13 +14,10 @@ func _ready():
 
 func _process(delta):
 	for f in $fishes.get_children():
-		if f.slapped:
-			f.position.y -= 300 * delta
-			if f.position.y + 64 <= 0:
-				$fishes.remove_child(f)
-		else:
-			var direction = ($hook/tip.global_position - f.position).normalized()
-			f.position += direction * 100 * delta
+		if not SCREEN.has_point(f.global_position):
+			print("removing " + str(f) + " at " + str(f.global_position))
+			$fishes.remove_child(f)
+			continue
 	if chest_animate:
 		$ground.position.y -= 100 * delta
 		if $ground.position.y <= 0:
@@ -37,8 +34,8 @@ func _process(delta):
 	
 
 func _get_random_spawn() -> Vector2:
-	var x = [-64, SCREEN.size.x][randi() % 2]
-	var y = randi() % (1024 - 64)
+	var x = [1, SCREEN.size.x-64][randi() % 2]
+	var y = 1 + randi() % (1024 - 64)
 	return Vector2(x, y)
 
 func _on_fish_clicked(node):
@@ -51,7 +48,7 @@ func _on_fish_clicked(node):
 	$mouse.play("slap")
 	node.slap()
 
-func _on_hook_fish_bite(some_fish):
+func _on_player_hit_by_fish(some_fish):
 	if some_fish.slapped:
 		return
 	print("entered: " + str(some_fish))
@@ -70,6 +67,8 @@ func _on_spawn_timer_timeout():
 		f.position = _get_random_spawn()
 		print("spawing fish " + str(f) + " at " + str(f.position))
 		f.connect("clicked", self, "_on_fish_clicked")
+		f.connect("got_player", self, "_on_player_hit_by_fish")
+		f.direction = ($hook/player.global_position - f.position).normalized()
 		$fishes.add_child(f)
 
 func _on_finale_timer_timeout():
