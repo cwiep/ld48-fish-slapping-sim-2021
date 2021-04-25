@@ -60,15 +60,15 @@ __meta__ = {
 }
 
 [node name="mouse_left" type="Sprite" parent="."]
-position = Vector2( 46.6164, 499.007 )
+position = Vector2( 161.038, 491.591 )
 scale = Vector2( 0.491457, 0.491457 )
 texture = ExtResource( 7 )
 
 [node name="Label" type="Label" parent="."]
-margin_left = 82.6381
-margin_top = 490.532
-margin_right = 138.638
-margin_bottom = 504.532
+margin_left = 36.0217
+margin_top = 484.175
+margin_right = 92.0217
+margin_bottom = 498.175
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 text = "Slap Fish"
 __meta__ = {
@@ -86,14 +86,25 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="mouse_controls" type="CheckButton" parent="."]
-margin_left = 33.9028
-margin_top = 528.672
-margin_right = 213.903
-margin_bottom = 568.672
-text = "Mouse Controls"
+[node name="mouse_controls" type="Button" parent="."]
+margin_left = 138.709
+margin_top = 535.178
+margin_right = 215.709
+margin_bottom = 555.178
+text = "WASD"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label2" type="Label" parent="."]
+margin_left = 36.7027
+margin_top = 540.178
+margin_right = 130.703
+margin_bottom = 554.178
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "Control Walter"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 [connection signal="pressed" from="play" to="." method="_on_play_pressed"]
-[connection signal="toggled" from="mouse_controls" to="." method="_on_mouse_controls_toggled"]
+[connection signal="pressed" from="mouse_controls" to="." method="_on_mouse_controls_pressed"]
