@@ -1,0 +1,40 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://scripts/ParallaxFront.gd" type="Script" id=1]
+[ext_resource path="res://graphics/bubbles_small.png" type="Texture" id=2]
+[ext_resource path="res://graphics/bubbles.png" type="Texture" id=3]
+
+[node name="background" type="ParallaxBackground"]
+layer = -1
+scroll_offset = Vector2( 0, 1 )
+
+[node name="ColorRect" type="ColorRect" parent="."]
+margin_right = 1024.0
+margin_bottom = 600.0
+mouse_filter = 2
+color = Color( 0.278431, 0.333333, 0.65098, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="back" type="ParallaxLayer" parent="."]
+modulate = Color( 0.32549, 0.407843, 0.682353, 0.533333 )
+motion_scale = Vector2( 0, 1 )
+motion_mirroring = Vector2( 0, 600 )
+script = ExtResource( 1 )
+SPEED = -100.0
+
+[node name="Sprite" type="Sprite" parent="back"]
+texture = ExtResource( 2 )
+centered = false
+
+[node name="front" type="ParallaxLayer" parent="."]
+modulate = Color( 0.168627, 0.54902, 0.694118, 0.533333 )
+motion_scale = Vector2( 0, 1 )
+motion_mirroring = Vector2( 0, 600 )
+script = ExtResource( 1 )
+SPEED = -300.0
+
+[node name="Sprite" type="Sprite" parent="front"]
+texture = ExtResource( 3 )
+centered = false
