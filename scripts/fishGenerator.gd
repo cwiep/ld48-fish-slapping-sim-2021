@@ -7,9 +7,9 @@ func generate():
 	var f = simple_fish.instance()
 	f.type = randi() % 3
 	if f.type == 0:
-		f.speed = 100
+		f.speed = 50
 	elif f.type == 1:
-		f.speed = 150
+		f.speed = 100
 	elif f.type == 2:
 		f.speed = 200
 	f.position = _get_random_spawn()
@@ -18,11 +18,12 @@ func generate():
 func generate_hunter():
 	var f = simple_fish.instance()
 	f.type = 3
-	f.speed = 150
+	f.speed = 100
 	f.position = _get_random_spawn()
+	f.health = 1
 	return f
 	
 func _get_random_spawn() -> Vector2:
 	var x = [1, get_viewport().get_visible_rect().size.x-64][randi() % 2]
-	var y = 1 + randi() % (1024 - 64)
+	var y = 1 + randi() % (600 - 64)
 	return Vector2(x, y)

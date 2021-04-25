@@ -5,7 +5,7 @@ enum {MOVE_DOWN, PULL_UP, STAY}
 var state = MOVE_DOWN
 
 func _ready():
-	print("ending started")
+	print("ending started, points: " + str(Globals.points))
 	$ground/chest.region_rect.position.x = 128
 	$background/back.SPEED = -20
 	$background/front.SPEED = -50

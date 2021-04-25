@@ -30,12 +30,7 @@ volume_db = -2.0
 autoplay = true
 
 [node name="spawn_timer" type="Timer" parent="."]
-wait_time = 2.0
-autostart = true
-
-[node name="finale_timer" type="Timer" parent="."]
-wait_time = 30.0
-one_shot = true
+wait_time = 3.0
 autostart = true
 
 [node name="difficulty_timer" type="Timer" parent="."]
@@ -46,5 +41,4 @@ autostart = true
 
 [node name="mouse" parent="." instance=ExtResource( 5 )]
 [connection signal="timeout" from="spawn_timer" to="." method="_on_spawn_timer_timeout"]
-[connection signal="timeout" from="finale_timer" to="." method="_on_finale_timer_timeout"]
 [connection signal="timeout" from="difficulty_timer" to="." method="_on_difficulty_timer_timeout"]

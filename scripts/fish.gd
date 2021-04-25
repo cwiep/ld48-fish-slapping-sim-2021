@@ -24,7 +24,11 @@ func slap():
 # private
 
 func _ready():
-	_direction = (player_ref.global_position - global_position).normalized()
+	if type == 2:
+		# just swim straight
+		_direction = (Vector2(1024-global_position.x, global_position.y) - global_position).normalized()
+	else:
+		_direction = (player_ref.global_position - global_position).normalized()
 	if _direction.x > 0:
 		$Sprite.flip_h = true
 	$Sprite.region_rect.position.x = 64 * type
