@@ -3,6 +3,7 @@ extends Node2D
 const SCREEN = Rect2(0, 0, 1024, 600)
 
 onready var fish = preload("res://scenes/fish.tscn")
+onready var pearl_scene = preload("res://scenes/pearl.tscn")
 
 var chest_animate = false
 var wait_for_finish = false
@@ -17,7 +18,10 @@ func _process(delta):
 		if not SCREEN.has_point(f.global_position):
 			print("removing " + str(f) + " at " + str(f.global_position))
 			$fishes.remove_child(f)
-			continue
+	for p in $pearls.get_children():
+		if not SCREEN.has_point(p.global_position):
+			print("removing " + str(p) + " at " + str(p.global_position))
+			$pearls.remove_child(p)
 	if chest_animate:
 		$ground.position.y -= 100 * delta
 		if $ground.position.y <= 0:
@@ -28,7 +32,7 @@ func _process(delta):
 			$spawn_timer.stop()
 			$ground/chest.region_rect.position.x = 128
 			wait_for_finish = true
-	if wait_for_finish and $fishes.get_child_count() == 0:
+	if wait_for_finish and $fishes.get_child_count() == 0 and $pearls.get_child_count() == 0:
 		get_tree().change_scene("res://scenes/ending.tscn")
 
 func _on_fish_clicked(node):
@@ -40,6 +44,10 @@ func _on_fish_clicked(node):
 	$slap_audio.play()
 	$mouse.play("slap")
 	node.slap()
+	var p = pearl_scene.instance()
+	$pearls.add_child(p)
+	p.position = node.global_position
+	p.connect("collected", self, "_on_pearl_collected")
 
 func _on_player_hit_by_fish(some_fish):
 	if some_fish.slapped:
@@ -47,6 +55,11 @@ func _on_player_hit_by_fish(some_fish):
 	print("entered: " + str(some_fish))
 	print("slaps: " + str(Globals.points))
 	get_tree().change_scene("res://scenes/game_over.tscn")
+
+func _on_pearl_collected(pearl):
+	$pearls.remove_child(pearl)
+	Globals.points += 2
+	$collect_audio.play()
 
 func _spawn_fishes(n):
 	for _i in range(Globals.difficulty):

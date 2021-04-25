@@ -39,3 +39,4 @@ __meta__ = {
 [node name="ambiance" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 6 )
 volume_db = -2.0
+autoplay = true
