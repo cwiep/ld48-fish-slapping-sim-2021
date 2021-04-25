@@ -39,15 +39,16 @@ func _on_fish_clicked(node):
 	if node.slapped:
 		return
 	print("slapped" + str(node))
-	Globals.points += 1
+	_increase_points(1)
 	$slap_audio.pitch_scale = 0.75 + randf() * 0.5
 	$slap_audio.play()
 	$mouse.play("slap")
 	node.slap()
-	var p = pearl_scene.instance()
-	$pearls.add_child(p)
-	p.position = node.global_position
-	p.connect("collected", self, "_on_pearl_collected")
+	if node.type == 2 or node.type == 3:
+		var p = pearl_scene.instance()
+		$pearls.add_child(p)
+		p.position = node.global_position
+		p.connect("collected", self, "_on_pearl_collected")
 
 func _on_player_hit_by_fish(some_fish):
 	if some_fish.slapped:
@@ -58,7 +59,7 @@ func _on_player_hit_by_fish(some_fish):
 
 func _on_pearl_collected(pearl):
 	$pearls.remove_child(pearl)
-	Globals.points += 2
+	_increase_points(2)
 	$collect_audio.play()
 
 func _spawn_fishes(n):
@@ -69,6 +70,10 @@ func _spawn_fishes(n):
 		f.player_ref = $player
 		$fishes.add_child(f)
 		print("spawing fish " + str(f) + " at " + str(f.global_position))
+
+func _increase_points(n):
+	Globals.points += n
+	$points.text = str(Globals.points)
 
 ### TIMERS
 
