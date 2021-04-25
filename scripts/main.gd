@@ -25,7 +25,6 @@ func _process(delta):
 			chest_animate = false
 			$background/front.SPEED = -50
 			$background/back.SPEED = -20
-			$difficulty_timer.stop()
 			$spawn_timer.stop()
 			$ground/chest.region_rect.position.x = 128
 			wait_for_finish = true
@@ -57,10 +56,6 @@ func _on_player_hit_by_fish(some_fish):
 
 ### TIMERS
 
-func _on_difficulty_timer_timeout():
-	difficulty += 1
-	print("difficulty: " + str(difficulty))
-
 func _on_spawn_timer_timeout():
 	for _i in range(difficulty):
 		var f = fish.instance()
@@ -68,8 +63,9 @@ func _on_spawn_timer_timeout():
 		print("spawing fish " + str(f) + " at " + str(f.position))
 		f.connect("clicked", self, "_on_fish_clicked")
 		f.connect("got_player", self, "_on_player_hit_by_fish")
-		f.direction = ($hook/player.global_position - f.position).normalized()
+		f.direction = ($player.global_position - f.position).normalized()
 		$fishes.add_child(f)
+	difficulty += 1
 
 func _on_finale_timer_timeout():
 	print("finale triggered")
